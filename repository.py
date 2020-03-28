@@ -19,7 +19,8 @@ channel = connection.channel()
 while 1:
     # First recieve input from keyboard
     message = input("Type message command:")
-    print("[Checkpoint 01", time.time(), "] Message Captured:", message)
+    print("[Checkpoint 01", time.time(), "] Message Captured:"
+          , message)
     # construct msg ID for each message received
     MsgID = "team_19$" + str(time.time())
 
@@ -40,10 +41,12 @@ while 1:
                   }
 
         # Insert command into mongoDB
-        print("[Checkpoint 02 ", time.time(), "] Store command in MongoDB instance:", command)
-        db.commands.insert_one(command)
+        print("[Checkpoint 02 ", time.time(), "] Store command in MongoDB instance:"
+              , command)
+        db.commands.insert(command)
 
         # send command to rabbit MQ and receive result/response
+        print("[Checkpoint 03 ", time.time(), "] Accessing the RabbitMQ instance:")
         channel.exchange_declare(exchange=place, exchange_type='direct')
         channel.basic_publish(exchange=place, routing_key=queue, body=cmdMess)
 
@@ -61,10 +64,12 @@ while 1:
                   }
 
         # insert command into mongoDB
-        print("[Checkpoint 02 ", time.time(), "] Store command in MongoDB instance:", command)
-        db.commands.insert_one(command)
+        print("[Checkpoint 02 ", time.time(), "] Store command in MongoDB instance:"
+              , command)
+        db.commands.insert(command)
 
         # send command to rabbit MQ and receive result/response
+        print("[Checkpoint 03 ", time.time(), "] Accessing the RabbitMQ instance:")
         channel.queue_bind(exchange=place, queue=queue_name, routing_key=queue)
         channel.basic_consume(callback, queue=queue_name, no_Ack=True)
         try:
