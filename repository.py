@@ -45,7 +45,7 @@ while 1:
 
         # send command to rabbit MQ and receive result/response
         print("[Checkpoint 03 ", time.time(), "] Accessing the RabbitMQ instance:")
-        print("Produce in", place, "+", queue, cmdMess)
+        print("Produce in", place, "+", queue,":", cmdMess)
         # channel.exchange_declare(exchange=place, exchange_type='direct')
         channel.basic_publish(exchange=place, routing_key=queue, body=cmdMess)
 
